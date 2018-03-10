@@ -3,6 +3,8 @@
 class Aspecter(object):
     # fields here
 
+    # relationship between rules and methodNames needs to be clearer
+    # Esp. for adding/removing, weaving/unweaving
     # string representations of method names
     methodNames = {}
 
@@ -10,7 +12,7 @@ class Aspecter(object):
     typeSignifiers = {}
 
     # list containing registered rules
-    rules = []
+    rules = {}
 
     # constructor here
     def __init__(self):
@@ -19,20 +21,28 @@ class Aspecter(object):
     # static methods
     # @staticmethod decorator
 
-    # instance methods
-    # @classmethod decorator
-
-    @classmethod
     def addToMethodNames(self, methodObj):
         self.methodNames[methodObj.__name__] = methodObj
+        # adding rules
 
-    @classmethod
     def removeFromMethodNames(self, name):
         del self.methodNames[name]
+        # deleting rules
 
-    @classmethod
-    def register(self, regex="", inputObjs=(), outputObjs=(),
+    def register(self, ruleName, regex="", inputObjs=(), outputObjs=(),
                  prefunc=None, postfunc=None):
-        rule = {"regex":regex, "inputs":inputObjs, "outputs":outputObjs,
+        rule = {"name": ruleName, "regex":regex, "inputs":inputObjs, "outputs":outputObjs,
                 "pre":prefunc, "post":postfunc}
-        self.rules.append(rule)
+        self.rules[ruleName] = rule
+
+    ### pseudocode
+    # def around(self, codeToAcceptOrReject, condition):
+    #     if condition:
+    #         codeToAcceptOrReject
+    #         advice
+    #     else:
+    #         different advice
+    #         # don't run codeToAcceptOrReject
+
+    def isIntercepted(name):
+
