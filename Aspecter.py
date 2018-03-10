@@ -45,4 +45,5 @@ class Aspecter(object):
     #         # don't run codeToAcceptOrReject
 
     def isIntercepted(name):
+        
 
